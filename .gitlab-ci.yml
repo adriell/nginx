@@ -1,0 +1,40 @@
+# Check if the project properly installs and builds all dependencies
+build_job:
+  stage: build
+  script:
+    - cd /var/www/
+    - npm install
+
+# Deploy the API and place config file
+deploy_api_job:
+  stage: deploy
+  only:
+    - production
+  script:
+    - cp -r . /var/www/$CI_BUILD_REF
+    - ln -s ./$CI_BUILD_REF /var/www/templink
+    - mv -Tf /var/www/templink /var/www/app
+    - cp /var/www/production.json /var/www/app/production.json
+# Install all dependencies and restart the process
+install_api_job:
+  stage: dependencies
+  only:
+    - production
+  script:
+    - cd /var/www/app/
+    - npm install --production
+# Reboot the process
+reboot_job:
+  stage: reboot
+  only:
+    - production
+  script:
+    - cd /var/www/app
+    - pm2 stop api
+    - pm2 delete api
+    - NODE_ENV=production pm2 start --name api index.js
+
+stages:
+  - build
+  - deploy
+  - reboot
