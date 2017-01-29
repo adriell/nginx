@@ -11,14 +11,13 @@ define nginx::server(
 		enable => true,
 		require => Package["nginx"]
 	}
-	file {"$server_name.conf":
+	file {"$app_name.conf":
 		ensure 	=> file,
-		path 	=> "/etc/nginx/conf.d/$server_name.conf",
+		path 	=> "/etc/nginx/conf.d/$app_name.conf",
 		mode	=> '0644',
 		owner 	=> root,
 		group 	=> root,
 		content => template("nginx/app.conf.erb"),
-		require => Service["nginx"],
 		notify 	=> Service["nginx"],
 	}
 }
