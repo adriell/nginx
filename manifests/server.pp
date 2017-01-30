@@ -2,7 +2,14 @@ define nginx::server(
 	$server_name = hiera('nginx::server::server_name'),
 	$app_name = hiera('nginx::server::app_name'),
 ){
+	
 	package {"nginx":
+		ensure => present,
+	}
+	package {"nginx-extras":
+		ensure => present,
+	}
+	package {"passenger":
 		ensure => present,
 	}
 

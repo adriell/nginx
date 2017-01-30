@@ -3,7 +3,7 @@ upstream lb-<%= @app_name %> {
       server 192.168.10.10:3001;
       server 192.168.10.10:3002;
 }
-include /etc/nginx/passenger.conf
+include /etc/nginx/passenger.conf;
 server {
       listen 80;
 
