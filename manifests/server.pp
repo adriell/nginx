@@ -6,12 +6,6 @@ define nginx::server(
 	package {"nginx":
 		ensure => present,
 	}
-	package {"nginx-extras":
-		ensure => present,
-	}
-	package {"passenger":
-		ensure => present,
-	}
 
 	service {"nginx":
 		ensure => running,
