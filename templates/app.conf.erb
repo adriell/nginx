@@ -3,19 +3,21 @@ upstream lb-<%= @app_name %> {
       server 192.168.10.10:3001;
       server 192.168.10.10:3002;
 }
-
+include /etc/nginx/passenger.conf
 server {
       listen 80;
 
       server_name <%= @server_name %>;
-
+      passenger_enabled on;
+      passenger_app_type node;
+      passenger_startup_file app.js;
       access_log  /var/log/nginx/nginx.access.app.log;
       error_log  /var/log/nginx/nginx_error.app.log debug;
-      root /var/www/html/app
+      root /var/www/html/app;
       location / {
         proxy_pass http://lb-app; # Load balance
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade$http_upgrade;
         proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
