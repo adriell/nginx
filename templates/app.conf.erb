@@ -5,15 +5,12 @@ upstream lb-<%= @app_name %> {
 }
 include /etc/nginx/passenger.conf;
 server {
-      listen 80;
+      listen 3000;
 
       server_name <%= @server_name %>;
-      passenger_enabled on;
-      passenger_app_type node;
-      passenger_startup_file app.js;
+      
       access_log  /var/log/nginx/nginx.access.app.log;
       error_log  /var/log/nginx/nginx_error.app.log debug;
-      root /var/www/html/app;
       location / {
         proxy_pass http://lb-app; # Load balance
         proxy_http_version 1.1;
