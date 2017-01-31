@@ -1,9 +1,8 @@
 upstream lb-<%= @app_name %> {
       ip_hash;
-      server 192.168.10.10:3001;
+      server 192.168.10.10:3000;
       server 192.168.10.10:3002;
 }
-include /etc/nginx/passenger.conf;
 server {
       listen 3000;
 
