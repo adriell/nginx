@@ -1,10 +1,10 @@
 upstream lb-<%= @app_name %> {
       ip_hash;
-      server 192.168.10.10:3000;
+      server 192.168.10.10:3001;
       server 192.168.10.10:3002;
 }
 server {
-      listen 3001;
+      listen 3000;
 
       server_name <%= @server_name %>;
       
