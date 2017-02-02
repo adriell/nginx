@@ -11,7 +11,7 @@ server {
       access_log  /var/log/nginx/nginx.access.app.log;
       error_log  /var/log/nginx/nginx_error.app.log debug;
       location / {
-        proxy_pass http://lb-app; # Load balance
+        proxy_pass http://lb-<% @app_name %>; 
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

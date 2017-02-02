@@ -1,4 +1,4 @@
-upstream lb-<%= @app_name %> {
+upstream lb-ssl-<%= @app_name %> {
       ip_hash;
       server localhost:3001;
       server localhost:3002;
@@ -13,7 +13,7 @@ server {
       access_log  /var/log/nginx/nginxssl.access.app.log;
       error_log  /var/log/nginx/nginx_errorssl.app.log debug;
       location / {
-        proxy_pass https://lb-app; # Load balance
+        proxy_pass https://lb-ssl-<%= @app_name %>; # Load balance
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
