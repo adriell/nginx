@@ -21,9 +21,9 @@ define nginx::server(
 		content => template("nginx/app.conf.erb"),
 		notify 	=> Service["nginx"],
 	}
-	file {"$app_namessl.conf":
+	file {"$app_name-ssl.conf":
                 ensure  => file,
-                path    => "/etc/nginx/conf.d/$app_namessl.conf",
+                path    => "/etc/nginx/conf.d/$app_name-ssl.conf",
                 mode    => '0644',
                 owner   => root,
                 group   => root,
