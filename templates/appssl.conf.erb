@@ -1,0 +1,24 @@
+upstream lb-<%= @app_name %> {
+      ip_hash;
+      server localhost:3001;
+      server localhost:3002;
+}
+server {
+      listen               443;
+      ssl                  on;
+      ssl_certificate      /etc/nginx/ssl/nginx.crt;
+      ssl_certificate_key  /etc/nginx/ssl/nginx.key;
+      server_name <%= @server_name %>;
+      
+      access_log  /var/log/nginx/nginxssl.access.app.log;
+      error_log  /var/log/nginx/nginx_errorssl.app.log debug;
+      location / {
+        proxy_pass https://lb-app; # Load balance
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+      }
+
+}

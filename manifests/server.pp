@@ -21,4 +21,38 @@ define nginx::server(
 		content => template("nginx/app.conf.erb"),
 		notify 	=> Service["nginx"],
 	}
+	file {"$app_namessl.conf":
+                ensure  => file,
+                path    => "/etc/nginx/conf.d/$app_namessl.conf",
+                mode    => '0644',
+                owner   => root,
+                group   => root,
+                content => template("nginx/appssl.conf.erb"),
+                notify  => Service["nginx"],
+        }
+	file {"ssl":
+                ensure  => directory,
+                path    => "/etc/nginx/ssl",
+
+        }
+
+	file {"nginx.key":
+                ensure  => file,
+                path    => "/etc/nginx/ssl/nginx.key",
+                mode    => '0644',
+                owner   => root,
+                group   => root,
+		source 	=> "puppet:///modules/nginx/nginx.key"
+         
+        }
+	   file {"nginx.crt":
+                ensure  => file,
+                path    => "/etc/nginx/ssl/nginx.crt",
+                mode    => '0644',
+                owner   => root,
+                group   => root,
+                source  => "puppet:///modules/nginx/nginx.crt"
+
+        }
+
 }
